@@ -6,7 +6,10 @@ from typing import Tuple
 import dataframe
 
 
-class CONVERSATION:
+class Conversation:
+    """
+    A class representing a conversation.
+    """
     def __init__(self, df) -> None:
         self.df = dataframe.create_megaframe(df)
 
