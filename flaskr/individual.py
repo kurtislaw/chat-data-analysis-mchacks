@@ -5,6 +5,7 @@ import pandas as pd
 from flaskr import dataframe
 import plotly.io as pio
 from glob import glob
+from collections import Counter
 
 pio.renderers.default = "browser"
 pd.options.plotting.backend = 'plotly'
@@ -57,12 +58,9 @@ class Conversation:
 
     def common_words(self):
         """Returns a dict with the most common words"""
-        sentences = list(self.df['content'])
-        words = []
-        for sentence in sentences:
-            for word in sentence.split():
-                words.append(word)
-        return words
+        texts = self.df['content'].dropna()
+
+        return Counter(''.join(texts).split()).most_common(10)
 
     def message_over_time(self, mode: str):
         """Returns an interactive graph showing cumulative messages over time."""
