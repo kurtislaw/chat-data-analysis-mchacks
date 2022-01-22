@@ -1,7 +1,6 @@
 """
 Individuals
 """
-from black import re
 import pandas as pd
 from flaskr import dataframe
 import plotly.io as pio
