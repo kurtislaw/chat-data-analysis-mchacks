@@ -21,6 +21,9 @@ def find_all_names() -> dict:
             name = name[:name.index('_')]
         new_names.append(name)
 
+    new_names.sort()
+    names.sort()
+
     return {new_name: name for new_name, name in zip(new_names, names)}
 
 
