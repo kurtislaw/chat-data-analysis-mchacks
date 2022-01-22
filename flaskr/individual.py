@@ -19,7 +19,17 @@ def find_all_names() -> dict:
         name = name.replace('./inbox/', '')
         if '_' in name:
             name = name[:name.index('_')]
+
+        counter = {}
+        if name in new_names:
+            if name not in counter:
+                counter['name'] = 2
+            else:
+                counter['name'] += 1
+            name += f"_{counter['name']}"
+
         new_names.append(name)
+
 
     new_names.sort()
     names.sort()
