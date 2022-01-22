@@ -11,13 +11,15 @@ def index():
 
 @app.route('/successful')
 def successful():
-    names = find_all_names()
+    names = list(find_all_names())
     return render_template('successful.html', names=names)
 
 
-@app.route('/test')
-def test():
-    df = Conversation('/Users/kurtis/Documents/Personal/Coding/mchack-chats/inbox/agnesyau_4napxth37a')
+@app.route('/results', methods=['POST', 'GET'])
+def results():
+    selected = request.form.get('select-names')
+    dir = find_all_names()[selected]
+    df = Conversation(dir)
     fig1 = df.message_over_time('flask')
     graphJSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
     return render_template('test.html', graphJSON=graphJSON)

@@ -10,7 +10,7 @@ pio.renderers.default = "browser"
 pd.options.plotting.backend = 'plotly'
 
 
-def find_all_names() -> list:
+def find_all_names() -> dict:
     """Parses through inbox directory, returns the names of all people."""
     names = glob('./inbox/*', recursive=True)
 
@@ -20,7 +20,8 @@ def find_all_names() -> list:
         if '_' in name:
             name = name[:name.index('_')]
         new_names.append(name)
-    return new_names
+
+    return {new_name: name for new_name, name in zip(new_names, names)}
 
 
 class Conversation:
