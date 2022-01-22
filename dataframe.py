@@ -9,7 +9,18 @@ import json
 import os
 
 
-def create_megaframe(dir: str):    
+#####################################################################################
+# A megaframe containing all relevant data for a SINGLE person's conversation JSON
+#####################################################################################
+
+
+def create_megaframe(dir: str):
+    """
+    Receives a directory str and returns a pandas dataframe. 
+
+    Example dir:
+        - './inbox/FOLDER/'
+    """
     megaframe = pd.DataFrame()
     files = os.listdir(dir)
 
@@ -19,10 +30,11 @@ def create_megaframe(dir: str):
                 json_data = json.load(json_file)
                 df = pd.DataFrame(json_data['messages'])
                 megaframe = pd.concat([megaframe, df])
-    
+
     # converting unix datetime into datetime objects
-    megaframe['timestamp_ms'] = pd.to_datetime(megaframe['timestamp_ms'], unit='ms')
-    
+    megaframe['timestamp_ms'] = pd.to_datetime(
+        megaframe['timestamp_ms'], unit='ms')
+
     # dropping unnecessary data
     useless_columns = ['share', 'photos', 'reactions', 'videos', 'audio_files']
     for column in useless_columns:
