@@ -2,13 +2,13 @@
 Analyze a given conversation. Calculate statistics and trends.
 """
 
+
 class Analyze():
 
     def __init__(self, messages, participants) -> None:
-        self.MESSAGES = messages
+        self.messages = messages
         self.recipiant = participants[0]['name']
         self.user = participants[1]['name']
-    
 
     def recipiant_name(self):
         return self.recipiant
@@ -18,12 +18,18 @@ class Analyze():
 ##########################################################
 
     def total_messages(self):
-        return sum(message['name'] == self.user for message in self.MESSAGES)
+        """
+        Return the total number of messages sent by a person
+        """
+        return sum(message['name'] == self.user for message in self.messages)
 
     def common_words(self):
+        """
+        Return the common words in the conversation
+        """
         words = {}
 
-        for m in self.MESSAGES:
+        for m in self.messages:
             for word in m['content'].split():
                 if word not in words:
                     words[word] = 1
