@@ -2,11 +2,4 @@ messages.zip
 inbox/
 .DS_Store
 __MACOSX/._messages
-__pycache__/dataframe.cpython-310.pyc
-.idea/vcs.xml
-.idea/modules.xml
-.idea/misc.xml
-.idea/mchack-chats.iml
-.idea/inspectionProfiles/Project_Default.xml
-.idea/inspectionProfiles/profiles_settings.xml
-.idea/
+.idea
