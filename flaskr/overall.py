@@ -40,10 +40,6 @@ class History:
         """Returns a tuple containing the people messaged."""
         return tuple(self.df['sender_name'].unique())
 
-    def total_message_count(self) -> int:
-        """Returns total messages sent in the conversation as an int"""
-        return self.df['sender_name'].count()
-
     def common_words(self):
         """Returns a dict with the most common words"""
         texts = self.df['content'].dropna()

@@ -2,6 +2,7 @@
 Individuals
 """
 
+
 import pandas as pd
 from flaskr import dataframe
 import plotly.io as pio
@@ -185,3 +186,4 @@ class Conversation:
                 response_time[sender_list[i + 1]].append([time_list[i + 1] - time_list[i]])
 
         return response_time
+
