@@ -34,8 +34,8 @@ def successful():
     return render_template('successful.html', names=names)
 
 
-@app.route('/results', methods=['POST', 'GET'])
-def results():
+@app.route('/individual-results', methods=['POST', 'GET'])
+def individual_results():
     selected = request.form.get('select-names')
     dir = find_all_names()[selected]
     df = Conversation(dir)
@@ -58,7 +58,7 @@ def results():
         p2_amt = 'literally nothing back'
     else:
         p2_amt = amt[1]
-    return render_template('results.html', 
+    return render_template('individual-results.html',
                            message_over_time_graph=message_over_time_graph, 
                            popular_hours_graph=popular_hours_graph,
                            people=df.people(),
