@@ -1,56 +1,43 @@
 """
-Individuals
+Overall
 """
-from black import re
 import pandas as pd
-from flaskr import dataframe
-import plotly.io as pio
-from glob import glob
 from collections import Counter
+from flaskr import dataframe
+import os
 from nltk.corpus import stopwords
 
-pio.renderers.default = "browser"
-pd.options.plotting.backend = 'plotly'
+
+def join_dataframe(inbox: str):
+    """
+    Iterate through conversation files,
+    set up individual dataframe,
+    and concatenate them
+    """
+    contacts = [f.path for f in os.scandir(inbox) if f.is_dir()]
+    frames = []
+    for contact in contacts:
+        frames.append(dataframe.create_megaframe(contact))
+    return pd.concat(frames)
 
 
-def find_all_names() -> dict:
-    """Parses through inbox directory, returns the names of all people."""
-    names = glob('./inbox/*', recursive=True)
-
-    new_names = list()
-    for name in names:
-        name = name.replace('./inbox/', '')
-        if '_' in name:
-            name = name[:name.index('_')]
-
-        counter = {}
-        if name in new_names:
-            if name not in counter:
-                counter['name'] = 2
-            else:
-                counter['name'] += 1
-            name += f"_{counter['name']}"
-
-        new_names.append(name)
-
-    new_names.sort()
-    names.sort()
-
-    return {new_name: name for new_name, name in zip(new_names, names)}
-
-
-class Conversation:
-    """A class representing a conversation."""
-
+class History:
+    """
+    Class representing entire chat history.
+    """
     def __init__(self, df) -> None:
-        self.df = dataframe.create_megaframe(df)
+        self.df = join_dataframe(df)
 
     def individual_messages_count(self) -> dict:
-        """Return a dict where the keys are people and values are message count."""
+        """Return a dict mapping people to message count."""
         return dict(self.df['sender_name'].value_counts())
 
+    def total_message_count(self) -> int:
+        """Returns total messages sent as an int"""
+        return self.df['sender_name'].count()
+
     def people(self) -> tuple:
-        """Returns a tuple containing the people involved in this conversation."""
+        """Returns a tuple containing the people messaged."""
         return tuple(self.df['sender_name'].unique())
 
     def total_message_count(self) -> int:
@@ -58,12 +45,12 @@ class Conversation:
         return self.df['sender_name'].count()
 
     def common_words(self):
-        """Returns a dict with the most common words after removing stopwords"""
+        """Returns a dict with the most common words"""
         texts = self.df['content'].dropna()
         all_words = ''.join(texts).split()
         stop_words = set(stopwords.words('english'))
         filtered = [word for word in all_words if word.lower() not in stop_words]
-        return Counter(filtered).most_common(10)
+        return Counter(filtered).most_common(20)
 
     def message_over_time(self, mode: str):
         """Returns an interactive graph showing cumulative messages over time."""
@@ -126,15 +113,3 @@ class Conversation:
             fig.show()
         else:
             raise KeyError
-
-    def texted_first(self) -> str:
-        """Returns the person that sent the first message"""
-        return list(self.df['sender_name'])[-1]
-
-    def first_text(self) -> str:
-        """Returns the first messages sent"""
-        return list(self.df['content'])[-1]
-
-    def first_day(self) -> str:
-        """Returns the first day of the text"""
-        return str(list(self.df['timestamp_ms'])[-1].date())
