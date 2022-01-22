@@ -8,7 +8,7 @@ import plotly.express as px
 import plotly.io as pio
 
 pio.renderers.default = "browser"
-
+pd.options.plotting.backend = 'plotly'
 
 class Conversation:
     """
@@ -51,8 +51,6 @@ class Conversation:
 
         series = series.reindex(idx, fill_value=0)
 
-        pd.options.plotting.backend = 'plotly'
-
         fig = series.plot(
             title='Amount of messages over time',
                               labels={
@@ -67,3 +65,23 @@ class Conversation:
         today = pd.Timestamp.today()
         delta = today - first_day
         return delta.days
+
+    def popular_hours(self):
+        """Returns a bar chart of most popular hours"""
+        hour_count = self.df['timestamp_ms'].dt.hour.value_counts().sort_index()
+
+        fig = hour_count.plot.bar(
+            title='Most popular hours',
+            labels={
+                'value': 'Texts',
+                'index': '24-hour time'
+                }
+            )
+        fig.update_layout(
+            xaxis=dict(
+                tickmode='linear',
+                tick0=1,
+                dtick=0
+                )
+            )
+        fig.show()
