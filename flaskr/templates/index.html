@@ -12,11 +12,7 @@
 <body>
     <h1>Upload files here homie.</h1>
     <p>Must be a .zip file.</p>
-    <!-- <form action="{{ url_for('results') }}" name="file" class="dropzone">
-    </form>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script> -->
-
-    <form method="POST" action="{{ url_for('results') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ url_for('individual_results') }}" enctype="multipart/form-data">
       <p><input type="file" name="file" accept=".zip"></p>
       <p><input type="submit" value="Submit"></p>
     </form>

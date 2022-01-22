@@ -15,7 +15,7 @@
 
     <h2>Individual chat</h2>
     <p>Select the chat you want to analyze.</p>
-    <form method="POST" action="{{ url_for('results') }}">
+    <form method="POST" action="{{ url_for('individual_results') }}">
         <select name="select-names">
             <option value="{{names[0]}}" selected>{{names[0]}}</option>
             {% for names in names[1:] %}
@@ -27,6 +27,8 @@
     
     <br><br>
     <h2>Overview</h2>
-    <button>Take me to overview</button>
+    <form action="/overall-results">
+        <input type="submit" value="Gimme this"/>
+    </form>
 </body>
 </html>

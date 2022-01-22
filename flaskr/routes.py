@@ -7,6 +7,7 @@ import plotly
 import os
 from werkzeug.utils import secure_filename
 import zipfile
+from .overall import History
 
 UPLOAD_FOLDER = os.path.dirname(os.path.realpath(__file__))
 
@@ -33,9 +34,33 @@ def successful():
     names = list(find_all_names())
     return render_template('successful.html', names=names)
 
+@app.route('/overall-results')
+def overall():
+    df = History('../inbox')
 
-@app.route('/results', methods=['POST', 'GET'])
-def results():
+    fig1 = df.message_over_time('flask')
+    message_over_time_graph = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
+
+    fig2 = df.popular_hours('flask')
+    popular_hours_graph = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
+
+    top_names = list(df.individual_messages_count())[1:4]
+    top_words = list(df.common_words())[1:4]
+
+    return render_template(
+        'overall.html',
+        message_over_time_graph=message_over_time_graph,
+        popular_hours_graph=popular_hours_graph,
+        days_since=df.days_since_beginning(),
+        total_messages=df.total_message_count(),
+        top1=top_names[0],
+        top2=top_names[1],
+        top3=top_names[2],
+        top_words=f'{top_words[0]}, {top_words[1]} and {top_words[2]}'
+        )
+
+@app.route('/individual-results', methods=['POST', 'GET'])
+def individual_results():
     selected = request.form.get('select-names')
     dir = find_all_names()[selected]
     df = Conversation(dir)
@@ -58,7 +83,7 @@ def results():
         p2_amt = 'literally nothing back'
     else:
         p2_amt = amt[1]
-    return render_template('results.html', 
+    return render_template('individual-results.html',
                            message_over_time_graph=message_over_time_graph, 
                            popular_hours_graph=popular_hours_graph,
                            people=df.people(),
