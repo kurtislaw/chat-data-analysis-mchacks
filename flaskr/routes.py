@@ -12,7 +12,7 @@ UPLOAD_FOLDER = os.path.dirname(os.path.realpath(__file__))
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('console.html')
 
 
 @app.route('/', methods=['POST', 'GET'])
