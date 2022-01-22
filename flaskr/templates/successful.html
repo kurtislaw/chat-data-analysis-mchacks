@@ -8,12 +8,22 @@
     <link rel="stylesheet" href="../static/index.css">
 </head>
 <body>
+    <h1>Your file has been uploaded successfully!</h1><br>
+    <p>Please select whether you want individual chat analysis, or an overview of all your chats.</p><br>
+
+    <br>
+
+    <h2>Individual chat</h2>
     <p>Select the chat you want to analyze.</p>
     <select name="names" method="GET" action="/">
         <option value="{{names[0]}}" selected>{{names[0]}}</option>
         {% for names in names[1:] %}
           <option value="{{names}}">{{names}}</option>
         {% endfor %}
-      </select>
+    </select>
+    <button>Analyze this chat!</button>
+    <br><br>
+    <h2>Overview</h2>
+    <button>Take me to overview</button>
 </body>
 </html>
