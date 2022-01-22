@@ -61,4 +61,9 @@ class Conversation:
                               })
         fig.show()
 
-
+    def days_since_beginning(self):
+        """Returns an int representing days since first text"""
+        first_day = self.df['timestamp_ms'].min()
+        today = pd.Timestamp.today()
+        delta = today - first_day
+        return delta.days
