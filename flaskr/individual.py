@@ -1,13 +1,14 @@
 """
 Individuals
 """
-from black import re
+
 import pandas as pd
 from flaskr import dataframe
 import plotly.io as pio
 from glob import glob
 from collections import Counter
 from nltk.corpus import stopwords
+import datetime
 
 pio.renderers.default = "browser"
 pd.options.plotting.backend = 'plotly'
@@ -57,8 +58,8 @@ class Conversation:
         """Returns total messages sent in the conversation as an int"""
         return self.df['sender_name'].count()
 
-    def common_words(self):
-        """Returns a dict with the most common words after removing stopwords"""
+    def common_words(self) -> list[tuple[str, int]]:
+        """Returns the most common words after removing stopwords"""
         texts = self.df['content'].dropna()
         all_words = ''.join(texts).split()
         stop_words = set(stopwords.words('english'))
@@ -138,3 +139,49 @@ class Conversation:
     def first_day(self) -> str:
         """Returns the first day of the text"""
         return str(list(self.df['timestamp_ms'])[-1].date())
+
+    def convo_count(self):
+        """
+        Return the number of conversations (separated by 2-hour period)
+        """
+        time_list = list(self.df['timestamp_ms'])
+        count = 0
+        for i in range(len(time_list) - 1):
+            if time_list[i] - time_list[i + 1] > datetime.timedelta(hours=2):
+                count += 1
+        return count
+
+    def convo_initiators(self):
+        sender_list = list(self.df['sender_name'])
+        text_list = list(self.df['content'])
+        time_list = list(self.df['timestamp_ms'])
+        sender_list.reverse()
+        text_list.reverse()
+        time_list.reverse()
+        initiators = {}
+        for i in range(len(time_list) - 1):
+            if time_list[i + 1] - time_list[i] > datetime.timedelta(hours=2):
+                if sender_list[i + 1] not in initiators:
+                    initiators[sender_list[i + 1]] = 1
+                else:
+                    initiators[sender_list[i + 1]] += 1
+
+        return initiators
+
+    def response_time(self):
+        """
+        Show distribution of response time
+        """
+        sender_list = list(self.df['sender_name'])
+        time_list = list(self.df['timestamp_ms'])
+        sender_list.reverse()
+        time_list.reverse()
+        response_time = {}
+
+        for i in range(len(time_list) - 1):
+            if sender_list[i + 1] not in response_time:
+                response_time[sender_list[i + 1]] = [time_list[i + 1] - time_list[i]]
+            else:
+                response_time[sender_list[i + 1]].append([time_list[i + 1] - time_list[i]])
+
+        return response_time
