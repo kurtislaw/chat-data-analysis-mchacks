@@ -1,54 +1,42 @@
 """
-Individuals
+Overall
 """
 import pandas as pd
-from flaskr import dataframe
-import plotly.io as pio
-from glob import glob
 from collections import Counter
-
-pio.renderers.default = "browser"
-pd.options.plotting.backend = 'plotly'
-
-
-def find_all_names() -> dict:
-    """Parses through inbox directory, returns the names of all people."""
-    names = glob('./inbox/*', recursive=True)
-
-    new_names = list()
-    for name in names:
-        name = name.replace('./inbox/', '')
-        if '_' in name:
-            name = name[:name.index('_')]
-
-        counter = {}
-        if name in new_names:
-            if name not in counter:
-                counter['name'] = 2
-            else:
-                counter['name'] += 1
-            name += f"_{counter['name']}"
-
-        new_names.append(name)
-
-    new_names.sort()
-    names.sort()
-
-    return {new_name: name for new_name, name in zip(new_names, names)}
+from flaskr import dataframe
+import os
 
 
-class Conversation:
-    """A class representing a conversation."""
+def join_dataframe(inbox: str):
+    """
+    Iterate through conversation files,
+    set up individual dataframe,
+    and concatenate them
+    """
+    contacts = [f.path for f in os.scandir(inbox) if f.is_dir()]
+    frames = []
+    for contact in contacts:
+        frames.append(dataframe.create_megaframe(contact))
+    return pd.concat(frames)
 
+
+class History:
+    """
+    Class representing entire chat history.
+    """
     def __init__(self, df) -> None:
-        self.df = dataframe.create_megaframe(df)
+        self.df = join_dataframe(df)
 
     def individual_messages_count(self) -> dict:
-        """Return a dict where the keys are people and values are message count."""
+        """Return a dict mapping people to message count."""
         return dict(self.df['sender_name'].value_counts())
 
+    def total_message_count(self) -> int:
+        """Returns total messages sent as an int"""
+        return self.df['sender_name'].count()
+
     def people(self) -> tuple:
-        """Returns a tuple containing the people involved in this conversation."""
+        """Returns a tuple containing the people messaged."""
         return tuple(self.df['sender_name'].unique())
 
     def total_message_count(self) -> int:
