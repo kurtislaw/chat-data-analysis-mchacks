@@ -57,7 +57,7 @@ def results():
     if len(amt) <= 1:
         p2_amt = 'literally nothing back'
     else:
-        p2_amt = ppl[1]
+        p2_amt = amt[1]
     return render_template('results.html', 
                            message_over_time_graph=message_over_time_graph, 
                            popular_hours_graph=popular_hours_graph,
