@@ -1,15 +1,16 @@
-from distutils.command.upload import upload
 from flaskr import app
-from flask import Flask, render_template, request, redirect, url_for
+from flask import render_template
+import json
+from .individual import Conversation
+import plotly
 
 @app.route('/')
-@app.route('/index')
 def index():
-    return render_template('templates/index.html')
+    return render_template('index.html')
 
-@app.route('/', methods=['POST'])
-def upload_file():
-    uploaded_file = request.files['file']
-    if uploaded_file.filename != '':
-        upload_file.save(uploaded_file.filename)
-    return redirect(url_for('index'))
+@app.route('/test')
+def notdash():
+    df = Conversation('/Users/kurtis/Documents/Personal/Coding/mchack-chats/inbox/agnesyau_4napxth37a')
+    fig1 = df.message_over_time('flask')
+    graphJSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
+    return render_template('test.html', graphJSON=graphJSON)

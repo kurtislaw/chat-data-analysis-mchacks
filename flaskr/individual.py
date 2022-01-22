@@ -2,9 +2,7 @@
 Individuals
 """
 import pandas as pd
-
-import dataframe
-import plotly.express as px
+from flaskr import dataframe
 import plotly.io as pio
 
 pio.renderers.default = "browser"
@@ -38,7 +36,7 @@ class Conversation:
                 words.append(word)
         return words
 
-    def message_over_time(self):
+    def message_over_time(self, mode: str):
         """Returns an interactive graph showing cumulative messages over time."""
         idx = pd.date_range(
             start=self.df['timestamp_ms'].min().floor('d'),
@@ -57,7 +55,13 @@ class Conversation:
                 "value": "Cumulative messages count/day",
                 "index": "Time"
             })
-        fig.show()
+
+        if mode == 'flask':
+            return fig
+        elif mode == 'local':
+            fig.show()
+        else:
+            raise KeyError
 
     def days_since_beginning(self):
         """Returns an int representing days since first text"""
@@ -66,7 +70,7 @@ class Conversation:
         delta = today - first_day
         return delta.days
 
-    def popular_hours(self):
+    def popular_hours(self, mode: str):
         """Returns a bar chart of most popular hours"""
         hour_count = self.df['timestamp_ms'].dt.hour.value_counts(
         ).sort_index()
@@ -78,6 +82,7 @@ class Conversation:
                 'index': '24-hour time'
             }
         )
+
         fig.update_layout(
             xaxis=dict(
                 tickmode='linear',
@@ -85,4 +90,10 @@ class Conversation:
                 dtick=0
             )
         )
-        fig.show()
+
+        if mode == 'flask':
+            return fig
+        elif mode == 'local':
+            fig.show()
+        else:
+            raise KeyError
