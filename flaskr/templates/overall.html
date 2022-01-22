@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>McChat</title>
+  <link rel="stylesheet" href="../static/graphs.css">
+</head>
+<body>
+<h1>Overall vibez yfm</h1>
+<div id='chart1' class='chart' ”></div>
+</body>
+
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>
+  var graphs = {{message_over_time_graph | safe}};
+  Plotly.plot('chart1',graphs,{});
+
+</script>
+
+<div id='chart2' class='chart' ”></div>
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>
+  var graphs = {{popular_hours_graph | safe}};
+  Plotly.plot('chart2',graphs,{});
+
+</script>
+
+<h2>Other data</h2>
+<p>
+  You text {{ top1 }}, {{ top2 }} and {{ top3 }} way too much. You should really chill. You
+  have sent a total of {{ total_messages }} since you first started texting, {{ days_since}} days ago.
+  Out of all the words you could've learnt, your favorites are {{ top_words }}. Sigh.
+</p>
+</html>
