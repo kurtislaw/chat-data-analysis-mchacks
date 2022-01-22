@@ -1,18 +1,16 @@
 """
 Individuals
 """
-<<<<<<< Updated upstream
 import pandas as pd
 from flaskr import dataframe
 import plotly.io as pio
 from glob import glob
-from collections import Counter
 
 pio.renderers.default = "browser"
 pd.options.plotting.backend = 'plotly'
 
 
-def find_all_names() -> list:
+def find_all_names() -> dict:
     """Parses through inbox directory, returns the names of all people."""
     names = glob('./inbox/*', recursive=True)
 
@@ -21,14 +19,22 @@ def find_all_names() -> list:
         name = name.replace('./inbox/', '')
         if '_' in name:
             name = name[:name.index('_')]
+
+        counter = {}
+        if name in new_names:
+            if name not in counter:
+                counter['name'] = 2
+            else:
+                counter['name'] += 1
+            name += f"_{counter['name']}"
+
         new_names.append(name)
-    return new_names
-=======
-import dataframe
-from collections import Counter
-import nltk
-from nltk.corpus import stopwords
->>>>>>> Stashed changes
+
+
+    new_names.sort()
+    names.sort()
+
+    return {new_name: name for new_name, name in zip(new_names, names)}
 
 
 class Conversation:
@@ -50,11 +56,13 @@ class Conversation:
         return self.df['sender_name'].count()
 
     def common_words(self):
-<<<<<<< Updated upstream
-        """Returns a list of tuples with the most common words"""
-        texts = self.df['content'].dropna()
-
-        return Counter(''.join(texts).lower().split()).most_common(100)
+        """Returns a dict with the most common words"""
+        sentences = list(self.df['content'])
+        words = []
+        for sentence in sentences:
+            for word in sentence.split():
+                words.append(word)
+        return words
 
     def message_over_time(self, mode: str):
         """Returns an interactive graph showing cumulative messages over time."""
@@ -117,11 +125,3 @@ class Conversation:
             fig.show()
         else:
             raise KeyError
-=======
-        """Returns a dict with the most common words"""
-        texts = self.df['content'].dropna()
-
-        return Counter("".join(texts).lower().split()).most_common(10)
-
-
->>>>>>> Stashed changes
