@@ -10,10 +10,10 @@ import plotly.io as pio
 pio.renderers.default = "browser"
 pd.options.plotting.backend = 'plotly'
 
+
 class Conversation:
-    """
-    A class representing a conversation.
-    """
+    """A class representing a conversation."""
+
     def __init__(self, df) -> None:
         self.df = dataframe.create_megaframe(df)
 
@@ -43,7 +43,7 @@ class Conversation:
         idx = pd.date_range(
             start=self.df['timestamp_ms'].min().floor('d'),
             end=self.df['timestamp_ms'].max().floor('d')
-            )
+        )
 
         series = (self.df['timestamp_ms']).dt.floor('d').value_counts()
 
@@ -53,10 +53,10 @@ class Conversation:
 
         fig = series.plot(
             title='Amount of messages over time',
-                              labels={
-                                  "value": "Cumulative messages count/day",
-                                  "index": "Time"
-                              })
+            labels={
+                "value": "Cumulative messages count/day",
+                "index": "Time"
+            })
         fig.show()
 
     def days_since_beginning(self):
@@ -68,20 +68,21 @@ class Conversation:
 
     def popular_hours(self):
         """Returns a bar chart of most popular hours"""
-        hour_count = self.df['timestamp_ms'].dt.hour.value_counts().sort_index()
+        hour_count = self.df['timestamp_ms'].dt.hour.value_counts(
+        ).sort_index()
 
         fig = hour_count.plot.bar(
             title='Most popular hours',
             labels={
                 'value': 'Texts',
                 'index': '24-hour time'
-                }
-            )
+            }
+        )
         fig.update_layout(
             xaxis=dict(
                 tickmode='linear',
                 tick0=1,
                 dtick=0
-                )
             )
+        )
         fig.show()
