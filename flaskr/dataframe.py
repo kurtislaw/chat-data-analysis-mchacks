@@ -2,9 +2,6 @@
 Creates a pandas dataframe containing all the information we will possibly need.
 """
 import pandas as pd
-from matplotlib import pyplot as plt, use
-from matplotlib.pyplot import figure
-import numpy as np
 import json
 import os
 
