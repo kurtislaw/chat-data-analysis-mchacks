@@ -9,7 +9,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/test')
-def notdash():
+def test():
     df = Conversation('/Users/kurtis/Documents/Personal/Coding/mchack-chats/inbox/agnesyau_4napxth37a')
     fig1 = df.message_over_time('flask')
     graphJSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
