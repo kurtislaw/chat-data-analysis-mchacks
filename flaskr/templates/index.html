@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>McChat</title>
     <link rel="stylesheet" href="../static/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
 </head>
 <body>
     <h1>Upload files here homie.</h1>
     <p>Must be a .zip file.</p>
-    <form method="POST" action="" enctype="multipart/form-data">
-        <p><input type="file" name="file" accept=".zip"></p>
-        <p><input type="submit" name="Submit"></p>
+    <form action="{{ url_for('upload_file') }}" class="dropzone">
     </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
 </body>
 </html>
