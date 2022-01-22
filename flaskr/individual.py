@@ -1,8 +1,6 @@
 """
 Individuals
 """
-import os
-from typing import Tuple
 import dataframe
 
 
