@@ -21,7 +21,7 @@ def create_megaframe(dir: str):
     Example dir:
         - './inbox/FOLDER/'
     """
-    megaframe = pd.DataFrame()
+    dataframe = pd.DataFrame()
     files = os.listdir(dir)
 
     for file in files:
@@ -29,16 +29,16 @@ def create_megaframe(dir: str):
             with open(f'{dir}/{file}') as json_file:
                 json_data = json.load(json_file)
                 df = pd.DataFrame(json_data['messages'])
-                megaframe = pd.concat([megaframe, df])
+                dataframe = pd.concat([dataframe, df])
 
     # converting unix datetime into datetime objects
-    megaframe['timestamp_ms'] = pd.to_datetime(
-        megaframe['timestamp_ms'], unit='ms')
+    dataframe['timestamp_ms'] = pd.to_datetime(
+        dataframe['timestamp_ms'], unit='ms')
 
     # dropping unnecessary data
     useless_columns = ['share', 'photos', 'reactions', 'videos', 'audio_files']
     for column in useless_columns:
-        if column in megaframe.columns:
-            megaframe.drop(column, axis=1, inplace=True)
+        if column in dataframe.columns:
+            dataframe.drop(column, axis=1, inplace=True)
 
-    return megaframe
+    return dataframe
