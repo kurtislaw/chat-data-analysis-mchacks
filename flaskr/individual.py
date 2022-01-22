@@ -1,7 +1,13 @@
 """
 Individuals
 """
+import pandas as pd
+
 import dataframe
+import plotly.express as px
+import plotly.io as pio
+
+pio.renderers.default = "browser"
 
 
 class Conversation:
@@ -31,3 +37,28 @@ class Conversation:
             for word in sentence.split():
                 words.append(word)
         return words
+
+    def message_over_time(self):
+        """Returns an interactive graph showing cumulative messages over time."""
+        idx = pd.date_range(
+            start=self.df['timestamp_ms'].min().floor('d'),
+            end=self.df['timestamp_ms'].max().floor('d')
+            )
+
+        series = (self.df['timestamp_ms']).dt.floor('d').value_counts()
+
+        series.index = pd.DatetimeIndex(series.index)
+
+        series = series.reindex(idx, fill_value=0)
+
+        pd.options.plotting.backend = 'plotly'
+
+        fig = series.plot(
+            title='Amount of messages over time',
+                              labels={
+                                  "value": "Cumulative messages count/day",
+                                  "index": "Time"
+                              })
+        fig.show()
+
+
