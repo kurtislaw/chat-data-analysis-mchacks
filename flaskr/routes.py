@@ -39,6 +39,26 @@ def results():
     selected = request.form.get('select-names')
     dir = find_all_names()[selected]
     df = Conversation(dir)
+
     fig1 = df.message_over_time('flask')
-    graphJSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('results.html', graphJSON=graphJSON)
+    message_over_time_graph = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
+
+    fig2 = df.popular_hours('flask')
+    popular_hours_graph = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
+
+    ppl = list(df.individual_messages_count())
+    amt = list(df.individual_messages_count().values())
+    return render_template('results.html', 
+                           message_over_time_graph=message_over_time_graph, 
+                           popular_hours_graph=popular_hours_graph,
+                           people=df.people(),
+                           days_since=df.days_since_beginning(),
+                           total_messages=df.total_message_count(),
+                           p1=ppl[0],
+                           p2=ppl[1],
+                           p1_amt=amt[0],
+                           p2_amt=amt[1],
+                           first_texter=df.texted_first(),
+                           first_content=df.first_text(),
+                           first_day=df.first_day()
+                           )

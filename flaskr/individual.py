@@ -1,6 +1,7 @@
 """
 Individuals
 """
+from black import re
 import pandas as pd
 from flaskr import dataframe
 import plotly.io as pio
@@ -123,3 +124,15 @@ class Conversation:
             fig.show()
         else:
             raise KeyError
+
+    def texted_first(self) -> str:
+        """Returns the person that sent the first message"""
+        return list(self.df['sender_name'])[-1]
+
+    def first_text(self) -> str:
+        """Returns the first messages sent"""
+        return list(self.df['content'])[-1]
+
+    def first_day(self) -> str:
+        """Returns the first day of the text"""
+        return str(list(self.df['timestamp_ms'])[-1].date())

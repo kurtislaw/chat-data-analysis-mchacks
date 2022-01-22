@@ -9,19 +9,24 @@
 </head>
 <body>
 <h1>Individual graphs famz</h1>
-<div id='chart' class='chart' ”></div>
+<div id='chart1' class='chart' ”></div>
 </body>
+
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 <script type='text/javascript'>
-  var graphs = {{graphJSON | safe}};
-  Plotly.plot('chart',graphs,{});
-
+  var graphs = {{message_over_time_graph | safe}};
+  Plotly.plot('chart1',graphs,{});
 </script>
 
+<div id='chart2' class='chart' ”></div>
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 <script type='text/javascript'>
-  var graphs = {{secondJSON | safe}};
-  Plotly.plot('chart',graphs,{});
-
-
+  var graphs = {{popular_hours_graph | safe}};
+  Plotly.plot('chart2',graphs,{});
 </script>
+
+<h2>Other data</h2>
+<p>
+  This conversation is held between {{ people[0] }} and {{ people[1] }}. It has been {{ days_since }} days since your first conversation! The total messages the both of you have exchanged are {{ total_messages }}, with {{ p1 }} sending {{ p1_amt }} texts and {{ p2 }} sending {{ p2_amt }}. {{ first_texter }} sent the first text on {{ first_day }}, it being "{{ first_content }}".
+</p>
 </html>
