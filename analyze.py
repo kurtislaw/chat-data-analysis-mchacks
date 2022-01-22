@@ -3,14 +3,14 @@ Analyze a given conversation. Calculate statistics and trends.
 """
 
 
-class Analyze():
+class Analyze:
 
     def __init__(self, messages, participants) -> None:
         self.messages = messages
-        self.recipiant = participants[0]['name']
+        self.recipient = participants[0]['name']
         self.user = participants[1]['name']
 
-    def recipiant_name(self):
+    def recipient_name(self):
         return self.recipiant
 
 ##########################################################
