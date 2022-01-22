@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McChat</title>
+    <link rel="stylesheet" href="../static/index.css">
+</head>
+<body>
+    <p>Select the chat you want to analyze.</p>
+    <select name="names" method="GET" action="/">
+        <option value="{{names[0]}}" selected>{{names[0]}}</option>
+        {% for names in names[1:] %}
+          <option value="{{names}}">{{names}}</option>
+        {% endfor %}
+      </select>
+</body>
+</html>

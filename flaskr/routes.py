@@ -2,11 +2,17 @@ from flaskr import app
 from flask import render_template, request, redirect, url_for
 import json
 from .individual import Conversation
+from .individual import find_all_names
 import plotly
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/successful')
+def successful():
+    names = find_all_names()
+    return render_template('successful.html', names=names)
 
 
 @app.route('/test')
