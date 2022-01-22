@@ -8,8 +8,13 @@ import numpy as np
 import json
 import os
 
+# message_1.json
 
-def create_megaframe(dir: str):    
+
+def create_megaframe(dir: str):
+    """
+    Set up dataframe from file directory.
+    """
     megaframe = pd.DataFrame()
     files = os.listdir(dir)
 
