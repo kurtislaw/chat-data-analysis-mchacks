@@ -48,6 +48,16 @@ def results():
 
     ppl = list(df.individual_messages_count())
     amt = list(df.individual_messages_count().values())
+
+    if len(ppl) <= 1:
+        p2 = 'you'
+    else:
+        p2 = ppl[1]
+
+    if len(amt) <= 1:
+        p2_amt = 'literally nothing back'
+    else:
+        p2_amt = ppl[1]
     return render_template('results.html', 
                            message_over_time_graph=message_over_time_graph, 
                            popular_hours_graph=popular_hours_graph,
@@ -55,9 +65,9 @@ def results():
                            days_since=df.days_since_beginning(),
                            total_messages=df.total_message_count(),
                            p1=ppl[0],
-                           p2=ppl[1],
+                           p2=p2,
                            p1_amt=amt[0],
-                           p2_amt=amt[1],
+                           p2_amt=p2_amt,
                            first_texter=df.texted_first(),
                            first_content=df.first_text(),
                            first_day=df.first_day()
