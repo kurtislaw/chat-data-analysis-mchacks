@@ -6,6 +6,7 @@ from flaskr import dataframe
 import plotly.io as pio
 from glob import glob
 from collections import Counter
+from nltk.corpus import stopwords
 
 pio.renderers.default = "browser"
 pd.options.plotting.backend = 'plotly'
@@ -56,10 +57,12 @@ class Conversation:
         return self.df['sender_name'].count()
 
     def common_words(self):
-        """Returns a dict with the most common words"""
+        """Returns a dict with the most common words after removing stopwords"""
         texts = self.df['content'].dropna()
-
-        return Counter(''.join(texts).split()).most_common(10)
+        all_words = ''.join(texts).split()
+        stop_words = set(stopwords.words('english'))
+        filtered = [word for word in all_words if word.lower() not in stop_words]
+        return Counter(filtered).most_common(10)
 
     def message_over_time(self, mode: str):
         """Returns an interactive graph showing cumulative messages over time."""
