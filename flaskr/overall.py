@@ -6,7 +6,7 @@ from collections import Counter
 from flaskr import dataframe
 import os
 from nltk.corpus import stopwords
-import gender_guesser.detector as gender
+# import gender_guesser.detector as gender
 from collections import Counter
 
 
