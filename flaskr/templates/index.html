@@ -12,6 +12,7 @@
 <body>
     <h1>Upload files here homie.</h1>
     <p align="center">Must be a .zip file.</p>
+    <div id="load" name="load" align="center" class="loader"></div>
     <form class="bot" align="bottom" method="POST" action="" enctype="multipart/form-data">
       <div class="file-upload">
         <label for="file-input">
@@ -19,7 +20,7 @@
         </label>
         <input id="file-input" type="file" name="file" accept=".zip">
       </div>
-      <p class="button"><input type="submit" value="Submit"></p>
+      <p class="button"><input type="submit" value="Submit" onclick="loader.style.visibility='visible';"></p>
     </form>
 
     
