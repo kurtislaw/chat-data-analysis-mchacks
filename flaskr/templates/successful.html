@@ -8,27 +8,18 @@
     <link rel="stylesheet" href="../static/index.css">
 </head>
 <body>
-    <h1>Your file has been uploaded successfully!</h1><br>
-    <p align="center"> Please select whether you want individual chat analysis, or an overview of all your chats.</p><br>
+    <br><br><br><br>
+    <h1>Want to see how bad you are at texting in DETAIL?</h1>
 
-    <br>
-
-    <h2>Individual chat</h2>
-    <p>Select the chat you want to analyze.</p>
-    <form method="POST" action="{{ url_for('individual_results') }}">
+    <p style="text-align: center;">You can now analyze chats individually. Select the relevant chat.</p>
+    <form style="text-align: center;" method="POST" action="{{ url_for('individual_results') }}">
         <select name="select-names">
             <option value="{{names[0]}}" selected>{{names[0]}}</option>
             {% for names in names[1:] %}
               <option value="{{names}}">{{names}}</option>
             {% endfor %}
-        </select>
+        </select><br><br><br><br>
         <input type="submit" value="Analyze this chat!"/>
-    </form>
-    
-    <br><br>
-    <h2>Overview</h2>
-    <form action="/overall-results">
-        <input type="submit" value="Gimme this"/>
     </form>
 </body>
 </html>
