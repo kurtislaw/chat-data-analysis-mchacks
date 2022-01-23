@@ -120,5 +120,4 @@ class History:
             all_first_names.append(full_name[0])
         d = gender.Detector()
         guesses = [d.get_gender(name) for name in all_first_names]
-        print(all_first_names)
         return dict(Counter(guesses))
