@@ -46,12 +46,11 @@ class Conversation:
     """A class representing a conversation."""
 
     def __init__(self, df) -> None:
-        self.ms_df = dataframe.create_message_dataframe(df)
-        self.pt_df = dataframe.create_participants_dataframe(df)
+        self.df = dataframe.create_message_dataframe(df)
 
     def individual_messages_count(self) -> dict:
         """Return a dict where the keys are people and values are message count."""
-        return dict(self.ms_df['sender_name'].value_counts())
+        return dict(self.df['sender_name'].value_counts())
 
     def text_ratio(self):
         legend = self.individual_messages_count()
@@ -60,18 +59,17 @@ class Conversation:
             legend[sender] = legend[sender]/total
         return legend
 
-
     def people(self) -> tuple:
         """Returns a tuple containing the people involved in this conversation."""
-        return tuple(self.ms_df['sender_name'].unique())
+        return tuple(self.df['sender_name'].unique())
 
     def total_message_count(self) -> int:
         """Returns total messages sent in the conversation as an int"""
-        return self.ms_df['sender_name'].count()
+        return self.df['sender_name'].count()
 
     def common_words(self) -> list[tuple[str, int]]:
         """Returns the most common words after removing stopwords"""
-        texts = self.ms_df['content'].dropna()
+        texts = self.df['content'].dropna()
         all_words = ''.join(texts).split()
         stop_words = set(stopwords.words('english'))
         filtered = [word for word in all_words if word.lower() not in stop_words]
@@ -80,11 +78,11 @@ class Conversation:
     def message_over_time(self, mode: str):
         """Returns an interactive graph showing cumulative messages over time."""
         idx = pd.date_range(
-            start=self.ms_df['timestamp_ms'].min().floor('d'),
-            end=self.ms_df['timestamp_ms'].max().floor('d')
+            start=self.df['timestamp_ms'].min().floor('d'),
+            end=self.df['timestamp_ms'].max().floor('d')
         )
 
-        series = (self.ms_df['timestamp_ms']).dt.floor('d').value_counts()
+        series = (self.df['timestamp_ms']).dt.floor('d').value_counts()
 
         series.index = pd.DatetimeIndex(series.index)
 
@@ -106,14 +104,14 @@ class Conversation:
 
     def days_since_beginning(self):
         """Returns an int representing days since first text"""
-        first_day = self.ms_df['timestamp_ms'].min()
+        first_day = self.df['timestamp_ms'].min()
         today = pd.Timestamp.today()
         delta = today - first_day
         return delta.days
 
     def popular_hours(self, mode: str):
         """Returns a bar chart of most popular hours"""
-        hour_count = self.ms_df['timestamp_ms'].dt.hour.value_counts(
+        hour_count = self.df['timestamp_ms'].dt.hour.value_counts(
         ).sort_index()
 
         fig = hour_count.plot.bar(
@@ -141,21 +139,21 @@ class Conversation:
 
     def texted_first(self) -> str:
         """Returns the person that sent the first message"""
-        return list(self.ms_df['sender_name'])[-1]
+        return list(self.df['sender_name'])[-1]
 
     def first_text(self) -> str:
         """Returns the first messages sent"""
-        return list(self.ms_df['content'])[-1]
+        return list(self.df['content'])[-1]
 
     def first_day(self) -> str:
         """Returns the first day of the text"""
-        return str(list(self.ms_df['timestamp_ms'])[-1].date())
+        return str(list(self.df['timestamp_ms'])[-1].date())
 
     def convo_count(self):
         """
         Return the number of conversations (separated by 2-hour period)
         """
-        time_list = list(self.ms_df['timestamp_ms'])
+        time_list = list(self.df['timestamp_ms'])
         count = 0
         for i in range(len(time_list) - 1):
             if time_list[i] - time_list[i + 1] > datetime.timedelta(hours=2):
@@ -163,9 +161,9 @@ class Conversation:
         return count
 
     def convo_initiators(self):
-        sender_list = list(self.ms_df['sender_name'])
-        text_list = list(self.ms_df['content'])
-        time_list = list(self.ms_df['timestamp_ms'])
+        sender_list = list(self.df['sender_name'])
+        text_list = list(self.df['content'])
+        time_list = list(self.df['timestamp_ms'])
         sender_list.reverse()
         text_list.reverse()
         time_list.reverse()
@@ -183,8 +181,8 @@ class Conversation:
         """
         Show distribution of response time
         """
-        sender_list = list(self.ms_df['sender_name'])
-        time_list = list(self.ms_df['timestamp_ms'])
+        sender_list = list(self.df['sender_name'])
+        time_list = list(self.df['timestamp_ms'])
         sender_list.reverse()
         time_list.reverse()
         response_time = {}
