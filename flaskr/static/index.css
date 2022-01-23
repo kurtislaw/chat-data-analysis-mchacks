@@ -43,6 +43,11 @@ input[type=submit]{
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+    opacity: 1.0;
+}
+
+input:hover {
+    opacity: 0.5;
 }
 
 .file-upload>input {
@@ -55,4 +60,12 @@ input[type=submit]{
     align-content: center;
     align-self: center;
     text-align: center;
+}
+
+img {
+    opacity: 1.0;
+}
+
+img:hover {
+    opacity: 0.5;
 }
