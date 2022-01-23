@@ -7,6 +7,8 @@ from flaskr import dataframe
 import os
 from nltk.corpus import stopwords
 import datetime
+import nltk
+from collections import Counter
 
 
 def join_dataframe(inbox: str):
@@ -30,6 +32,8 @@ class History:
     def __init__(self, df) -> None:
         self.ms_df = dataframe.create_message_dataframe(df)
         self.pt_df = dataframe.create_participants_dataframe(df)
+        self.df = join_dataframe(df)
+        nltk.download('stopwords')
 
     def individual_messages_count(self) -> dict:
         """Return a dict mapping people to message count."""

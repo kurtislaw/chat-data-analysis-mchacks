@@ -1,5 +1,6 @@
+from time import sleep
 from flaskr import app
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, jsonify
 import json
 from .individual import Conversation
 from .individual import find_all_names
@@ -13,7 +14,7 @@ UPLOAD_FOLDER = os.path.dirname(os.path.realpath(__file__))
 
 @app.route('/')
 def index():
-    return render_template('console.html')
+    return render_template('index.html')
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -21,12 +22,16 @@ def upload_file():
     if request.method == 'POST':
         file = request.files['file']
         if file and file.filename != '':
+            ip = request.remote_addr
+            print(ip)
+            if not os.path.exists(UPLOAD_FOLDER + "/" + ip):
+                os.makedirs(UPLOAD_FOLDER + "/" + ip)
             filename = secure_filename(file.filename)
-            file.save(os.path.join(UPLOAD_FOLDER, filename))
-            zip_ref = zipfile.ZipFile(os.path.join(UPLOAD_FOLDER, filename), 'r')
-            zip_ref.extractall(UPLOAD_FOLDER)
+            file.save(os.path.join(UPLOAD_FOLDER + "/" + ip, filename))
+            zip_ref = zipfile.ZipFile(os.path.join(UPLOAD_FOLDER + "/" + ip, filename), 'r')
+            zip_ref.extractall(UPLOAD_FOLDER + "/" + ip)
             zip_ref.close()
-            return filename
+            return redirect(url_for(f'successful'))
 
 
 @app.route('/successful')
@@ -36,7 +41,8 @@ def successful():
 
 @app.route('/overall-results')
 def overall():
-    df = History('../inbox')
+    ip = request.remote_addr
+    df = History('flaskr/' + ip + '/inbox')
 
     fig1 = df.message_over_time('flask')
     message_over_time_graph = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
@@ -61,6 +67,7 @@ def overall():
 
 @app.route('/individual-results', methods=['POST', 'GET'])
 def individual_results():
+    
     selected = request.form.get('select-names')
     dir = find_all_names()[selected]
     df = Conversation(dir)

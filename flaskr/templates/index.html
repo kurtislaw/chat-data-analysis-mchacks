@@ -11,10 +11,15 @@
 </head>
 <body>
     <h1>Upload files here homie.</h1>
-    <p>Must be a .zip file.</p>
-    <form method="POST" action="{{ url_for('individual_results') }}" enctype="multipart/form-data">
-      <p><input type="file" name="file" accept=".zip"></p>
-      <p><input type="submit" value="Submit"></p>
+    <p align="center">Must be a .zip file.</p>
+    <form class="bot" align="bottom" method="POST" action="" enctype="multipart/form-data">
+      <div class="file-upload">
+        <label for="file-input">
+          <img src="https://i.ibb.co/jL2jQwN/image.png" width="100" height="100" onmouseover="opacity=0.5;" onmouseout="opacity=1.0;"/>
+        </label>
+        <input id="file-input" type="file" name="file" accept=".zip">
+      </div>
+      <p class="button"><input type="submit" value="Submit"></p>
     </form>
 
     

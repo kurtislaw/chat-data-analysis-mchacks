@@ -1,12 +1,17 @@
-
+<!DOCTYPE html>
+<html lang="en" >
 <head>
-	<link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700|VT323" rel="stylesheet">
-		<link rel="stylesheet" href="../static/console.css">
-		<script type="text/javascript" scr="script.js"></script>
-		<script>document.documentElement.className = 'js';</script>
+  <meta charset="UTF-8">
+  <title>Chat Analyzer</title>
+  <link rel="stylesheet" href="../static/console.css">
+
 </head>
-
-
+<body>
+<!-- partial:index.partial.html -->
+<link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700|VT323" rel="stylesheet">
+	
+<script>document.documentElement.className = 'js';</script>
+	</head>
 	<body class="demo-11">
 
 		<div id="connecting-dots" class="connecting-dots">
@@ -16,16 +21,20 @@
 		<div class="search search--open">
 
 			<div class="terminal">
-				<p class="terminal__line">Welcome:<span class="green"><</span><span class="green" id="ip"></span><span class="green">></span></p>
-				<p class="terminal__line">Chat analysis ready.</p>
-				<p class="terminal__line">Fetching messages:</p>
+				<p class="terminal__line">Welcome!<span class="green"><</span><span class="green" id="ip"></span><span class="green">></span></p>
+				<p class="terminal__line">Chat Analysis Ready<span class="country green"></span>?</p>
+				<p class="terminal__line">Search for Recipiant:</p>
 			</div>
 			<form class="search__form" action="">
-					<input class="search__input" id="search__input" name="search" placeholder="Command Line" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" ></input>
+					<input class="search__input" id="search__input" name="search" placeholder="Search" autocomplete="on" autocorrect="off" autocapitalize="off" spellcheck="false" ></input>
 			</form>
 		</div><!-- /search -->
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/easing/EasePack.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenLite.min.js"></script>
-		
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
