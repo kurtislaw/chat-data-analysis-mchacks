@@ -6,6 +6,8 @@ from collections import Counter
 from flaskr import dataframe
 import os
 from nltk.corpus import stopwords
+import gender_guesser.detector as gender
+from collections import Counter
 
 
 def join_dataframe(inbox: str):
@@ -109,3 +111,14 @@ class History:
             fig.show()
         else:
             raise KeyError
+
+    def gender_ratio(self) -> dict:
+        """Returns a dict talking about the gender ratio"""
+        all_first_names = []
+        for name in self.people():
+            full_name = name.split()
+            all_first_names.append(full_name[0])
+        d = gender.Detector()
+        guesses = [d.get_gender(name) for name in all_first_names]
+        print(all_first_names)
+        return dict(Counter(guesses))
