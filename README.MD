@@ -1,7 +1,7 @@
 # Chat analyzer @ McHacks9
 
 ![app](https://i.imgur.com/FyMnHLr.png)
-[Live Demo]() | [Github](https://github.com/kurtislaw/mchack-chats)
+[Live Demo](https://mcchat9.herokuapp.com/) | [Github](https://github.com/kurtislaw/mchack-chats)
 ## ✨ Inspiration
 We spend a signifcant amount of our time texting on Instagram. Ever wondered about your texting habits and patterns? Well, we did, that's why we made this program.
 
@@ -46,11 +46,11 @@ EXTRACTED-FOLDER
         |_ inbox
 ```
 3. [Compress](https://support.microsoft.com/en-us/windows/zip-and-unzip-files-8d28fa72-f2f9-712f-67df-f80cf89fd4e5) this folder ino a zip file. 
-4. Decide on whether you want to use the [hosted version]() or build locally. We understand that there are privacy concerns with such intimate information, so we fully support building this project locally!
+4. Decide on whether you want to use the [live demo](https://mcchat9.herokuapp.com/) or build locally. We understand that there are privacy concerns with such intimate information, so we fully support building this project locally!
 
-### Using hosted version
+### Using the [live demo](https://mcchat9.herokuapp.com/)
 1. Upload the inbox.zip on the front page.
-2. Wait a bit for the process to laod. We need to add a progress bar :(
+2. Wait a bit for the process to load. We need to add a progress bar :(
 3. That's it!
 
 ### Building locally (MacOS only for now)
