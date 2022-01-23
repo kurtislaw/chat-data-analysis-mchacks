@@ -5,6 +5,7 @@ Individuals
 
 import pandas as pd
 from flaskr import dataframe
+from flask import request
 import plotly.io as pio
 from glob import glob
 from collections import Counter
@@ -17,11 +18,12 @@ pd.options.plotting.backend = 'plotly'
 
 def find_all_names() -> dict:
     """Parses through inbox directory, returns the names of all people."""
-    names = glob('flaskr/inbox/*', recursive=True)
+    ip = request.remote_addr
+    names = glob('flaskr/' + ip + '/inbox/*', recursive=True)
 
     new_names = list()
     for name in names:
-        name = name.replace('flaskr/inbox/', '')
+        name = name.replace('flaskr/' + ip + '/inbox/', '')
         if '_' in name:
             name = name[:name.index('_')]
 
