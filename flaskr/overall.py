@@ -6,6 +6,7 @@ from collections import Counter
 from flaskr import dataframe
 import os
 from nltk.corpus import stopwords
+import nltk
 # import gender_guesser.detector as gender
 from collections import Counter
 
@@ -29,6 +30,7 @@ class History:
     """
     def __init__(self, df) -> None:
         self.df = join_dataframe(df)
+        nltk.download('stopwords')
 
     def individual_messages_count(self) -> dict:
         """Return a dict mapping people to message count."""
